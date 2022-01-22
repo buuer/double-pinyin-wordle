@@ -2,14 +2,11 @@ import { useReducer } from 'preact/hooks'
 
 const initialState = {}
 
-const reducer = (state, action) => {
+const reducer = (
+  state: unknown,
+  action: { type: string; payload: unknown }
+) => {
   switch (action.type) {
-    case 'increment':
-      return state + 1
-    case 'decrement':
-      return state - 1
-    case 'reset':
-      return 0
     default:
       throw new Error('Unexpected action')
   }

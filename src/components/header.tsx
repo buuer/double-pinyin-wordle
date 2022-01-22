@@ -8,7 +8,7 @@ const MenuIcon: FunctionalComponent<{
 }> = (props) => {
   return (
     <div
-      className={`icon px-4 text-fz-12 cursor-pointer ${props.icon}`}
+      className={`icon px-4 text-fz-12 cursor-pointer`}
       onClick={props.onClick}
     >
       {props.icon}
@@ -22,16 +22,17 @@ const Header: FunctionalComponent = () => {
 
   const handleSetting = useCallback(() => {
     console.log('setting')
+    document.getElementById('app')?.classList.toggle('nightmode')
   }, [])
 
   return (
     <div class="header flex">
       <div className="menu">
-        <MenuIcon icon="game-help" onClick={handleHelp} />
+        <MenuIcon icon="❔" onClick={handleHelp} />
       </div>
       <div className="title text-fz-36 text-fw-blod text-center"> wordle </div>
       <div className="menu">
-        <MenuIcon icon="game-setting" onClick={handleSetting} />
+        <MenuIcon icon="⚙️" onClick={handleSetting} />
       </div>
     </div>
   )

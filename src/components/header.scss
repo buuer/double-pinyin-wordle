@@ -8,11 +8,19 @@ $header-height: 50px;
     pointer-events: none;
     position: absolute;
     line-height: $header-height;
+    color: var(--color-tone-1);
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
     left: 0;
     right: 0;
   }
   .menu .icon {
     display: inline-block;
     width: 24px;
+    height: $header-height;
+    line-height: $header-height;
+    text-align: center;
+    vertical-align: middle;
   }
 }

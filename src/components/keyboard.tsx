@@ -6,7 +6,7 @@ import {
   DOUBLE_PINYIN_FLY_SHENG,
   STATUS_MAP,
 } from '../utils/counst'
-import {  joinClass } from '../utils/func'
+import { joinClass } from '../utils/func'
 import './keyboard.scss'
 
 const KeyButton: FunctionalComponent<{
@@ -22,7 +22,13 @@ const KeyButton: FunctionalComponent<{
     return [sheng, yun]
   }, [keyStr])
 
-  const handleClick = useCallback(() => onClick(keyStr), [onClick, keyStr])
+  const handleClick = useCallback(
+    (ev: Event) => {
+      ev.preventDefault()
+      onClick(keyStr)
+    },
+    [onClick, keyStr]
+  )
 
   const [shengStatus, yunStatus] = useMemo(() => {
     const idx = () => Math.floor(Math.random() * 5)
@@ -34,12 +40,22 @@ const KeyButton: FunctionalComponent<{
   if (keyStr === '_half') return <span class="key-half" />
   if (keyStr === 'enter') {
     return (
-      <button className="key-button default func one-and-a-half">确</button>
+      <button
+        className="key-button default func one-and-a-half"
+        onClick={handleClick}
+      >
+        确
+      </button>
     )
   }
   if (keyStr === 'backspace') {
     return (
-      <button className="key-button default func one-and-a-half">{'<-'}</button>
+      <button
+        className="key-button default func one-and-a-half"
+        onClick={handleClick}
+      >
+        {'<-'}
+      </button>
     )
   }
 

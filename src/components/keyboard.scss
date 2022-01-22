@@ -2,6 +2,7 @@
   width: 100%;
   overflow: hidden;
   padding: 5px;
+  box-sizing: border-box;
   .keyboard-row {
     display: flex;
     margin-bottom: 5px;
@@ -17,24 +18,19 @@
     border: 0;
     border-radius: 4px;
     cursor: pointer;
-    overflow: hidden;
     font-size: 16px;
-    &:active {
-      opacity: 0.8;
-    }
     &.default {
       background-color: var(--key-bg);
       color: var(--key-text-color);
     }
   }
   .transition {
-    transition: all 0.3s ease-in-out;
+    transition: all 0.15s ease-in-out;
   }
   .head {
     width: 100%;
-    padding: 5px 3px;
-    text-align: center;
-    padding-right: 50%;
+    padding: 3px;
+    text-align: left;
     box-sizing: border-box;
     align-self: flex-start;
     font-weight: 700;
@@ -42,9 +38,11 @@
 
   .tail {
     width: 100%;
+    box-sizing: border-box;
     padding: 3px 0;
     flex-grow: 1;
     font-size: 14px;
+    border-radius: 0 0 4px 4px;
   }
   &.sheng .key-button:not(.empty-yun) {
     .head {

@@ -6,7 +6,7 @@ import {
   DOUBLE_PINYIN_FLY_SHENG,
   STATUS_MAP,
 } from '../utils/counst'
-import { joniClass } from '../utils/func'
+import {  joinClass } from '../utils/func'
 import './keyboard.scss'
 
 const KeyButton: FunctionalComponent<{
@@ -14,17 +14,6 @@ const KeyButton: FunctionalComponent<{
   onClick: (k: string) => void
 }> = (props) => {
   const { keyStr, onClick } = props
-  if (keyStr === '_half') return <span class="key-half" />
-  if (keyStr === 'enter') {
-    return (
-      <button className="key-button default func one-and-a-half">确</button>
-    )
-  }
-  if (keyStr === 'backspace') {
-    return (
-      <button className="key-button default func one-and-a-half">{'<-'}</button>
-    )
-  }
 
   const [shengMu, yunMu] = useMemo(() => {
     const zhchsh = DOUBLE_PINYIN_FLY_SHENG[keyStr]
@@ -42,9 +31,21 @@ const KeyButton: FunctionalComponent<{
     return [s, y]
   }, [keyStr])
 
+  if (keyStr === '_half') return <span class="key-half" />
+  if (keyStr === 'enter') {
+    return (
+      <button className="key-button default func one-and-a-half">确</button>
+    )
+  }
+  if (keyStr === 'backspace') {
+    return (
+      <button className="key-button default func one-and-a-half">{'<-'}</button>
+    )
+  }
+
   return (
     <button
-      class={joniClass([
+      class={joinClass([
         'key-button',
         'transition',
         shengStatus,

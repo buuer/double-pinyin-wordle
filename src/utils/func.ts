@@ -10,7 +10,7 @@ export const getKeyboardLayout = (doublePyConf: Record<string, string>) =>
     return keyboard
   }, {} as Record<string, string[]>)
 
-export const joniClass = (classArr: (string | Record<string, boolean>)[]) =>
+export const joinClass = (classArr: (string | Record<string, boolean>)[]) =>
   classArr
     .flatMap((name) => {
       if (typeof name === 'string') return name

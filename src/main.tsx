@@ -1,6 +1,7 @@
 import { createContext, render } from 'preact'
 import 'normalize.css'
-import './index.css'
+import './style/index.css'
+import './style/atom.scss'
 
 import { App } from './app'
 import { useWordReducer } from './utils/reduce'

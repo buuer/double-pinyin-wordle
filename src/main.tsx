@@ -2,7 +2,7 @@ import { render } from 'preact'
 import { App } from './app'
 import 'normalize.css'
 import './style/index.scss'
-import './style/atom.scss'
+// import './style/atom.scss'
 
 
 

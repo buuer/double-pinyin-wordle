@@ -81,7 +81,6 @@ body {
   --modal-content-bg: var(--color-tone-7);
 }
 
-#app {
   .correct {
     background-color: var(--key-bg-correct);
     color: var(--key-evaluated-text-color);
@@ -94,4 +93,3 @@ body {
     background-color: var(--key-bg-absent);
     color: var(--key-evaluated-text-color);
   }
-}

@@ -1,4 +1,9 @@
 export const STATUS_MAP = ['', 'correct', 'present', 'absent']
+export const STATUS = {
+  CORRENT: 1,
+  PRESENT: 2,
+  ABSENT: 3,
+}
 export const KEY_BOARD_QWERTY = [
   ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
   ['_half', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', '_half'],

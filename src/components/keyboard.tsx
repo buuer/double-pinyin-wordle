@@ -6,14 +6,15 @@ import {
   DOUBLE_PINYIN_FLY_SHENG,
   STATUS_MAP,
 } from '../utils/counst'
-import { joinClass } from '../utils/func'
+import { joinClass, throttle } from '../utils/func'
+import { useWordleContext } from '../utils/reduce'
 import './keyboard.scss'
 
 const KeyButton: FunctionalComponent<{
   keyStr: string
-  onClick: (k: string) => void
 }> = (props) => {
-  const { keyStr, onClick } = props
+  const { keyStr } = props
+  const { state, emit } = useWordleContext()
 
   const [shengMu, yunMu] = useMemo(() => {
     const zhchsh = DOUBLE_PINYIN_FLY_SHENG[keyStr]
@@ -22,56 +23,37 @@ const KeyButton: FunctionalComponent<{
     return [sheng, yun]
   }, [keyStr])
 
-  const handleClick = useCallback(
-    (ev: Event) => {
-      ev.preventDefault()
-      onClick(keyStr)
-    },
-    [onClick, keyStr]
+  const handleClick = useMemo(
+    () => throttle(() => emit('keypass', keyStr), 150),
+    [emit, keyStr]
   )
 
-  const [shengStatus, yunStatus] = useMemo(() => {
-    const idx = () => Math.floor(Math.random() * 5)
-    const s = STATUS_MAP[idx()] || 'default'
-    const y = STATUS_MAP[idx()] || 'default'
-    return [s, y]
-  }, [keyStr])
+  const currentKeyStatus = state.statusMap[keyStr]
 
-  if (keyStr === '_half') return <span class="key-half" />
-  if (keyStr === 'enter') {
-    return (
-      <button
-        className="key-button default func one-and-a-half"
-        onClick={handleClick}
-      >
-        确
-      </button>
-    )
-  }
-  if (keyStr === 'backspace') {
-    return (
-      <button
-        className="key-button default func one-and-a-half"
-        onClick={handleClick}
-      >
-        {'<-'}
-      </button>
-    )
-  }
+  const [shengStatus, yunStatus] = useMemo(() => {
+    const [sheng, yun] = currentKeyStatus || [0, 0]
+    const s = STATUS_MAP[sheng] || 'default'
+    const y = STATUS_MAP[yun] || 'default'
+    return [s, y]
+  }, [currentKeyStatus])
 
   return (
     <button
       class={joinClass([
         'key-button',
         'transition',
-        shengStatus,
         {
           'empty-yun': !yunMu.length,
+          [shengStatus]: !yunMu.length,
         },
       ])}
       onClick={handleClick}
     >
-      <div className="head transition uppercase">{shengMu}</div>
+      <div
+        className={joinClass(['head', 'transition', 'uppercase', shengStatus])}
+      >
+        {shengMu}
+      </div>
 
       {!!yunMu.length && (
         <div className={'tail transition ' + yunStatus}>
@@ -85,18 +67,53 @@ const KeyButton: FunctionalComponent<{
 }
 
 const Keyboard: FunctionalComponent = () => {
-  const [state, setState] = useState(false)
-  const handleClick = useCallback(() => {
-    setState((s) => !s)
-  }, [])
-  const status = state ? 'sheng' : ''
+  const { state, emit } = useWordleContext()
+
+  const currentRow = state.historyRow[state.currentIdx]
+  const status = currentRow.length % 2 ? 'sheng' : ''
+  const handleKeyClick = useCallback((ev: Event) => ev.preventDefault(), [])
+
+  const handleComfirm = useCallback(() => {
+    if (currentRow.length !== 8) {
+      emit('shake', true)
+      setTimeout(() => emit('shake', false), 400)
+      return
+    }
+
+    for (let idx = 0; idx < 8; idx++) {
+      setTimeout(() => {
+        emit('confirm', idx)
+        idx === 7 && setTimeout(() => emit('rowConfirm'))
+      }, 100 * idx)
+    }
+  }, [emit, currentRow])
+
   return (
-    <div className={`keyboard transition ${status}`}>
+    <div className={`keyboard transition ${status}`} onClick={handleKeyClick}>
       {KEY_BOARD_QWERTY.map((row) => (
         <div className="keyboard-row">
-          {row.map((key, idx) => (
-            <KeyButton keyStr={key} key={idx} onClick={handleClick} />
-          ))}
+          {row.map((key, idx) => {
+            if (key === '_half') return <span class="key-half" />
+            if (key === 'enter')
+              return (
+                <button
+                  className="key-button default func one-and-a-half"
+                  onClick={handleComfirm}
+                >
+                  🕹️
+                </button>
+              )
+            if (key === 'backspace')
+              return (
+                <button
+                  className="key-button default func one-and-a-half"
+                  onClick={() => emit('backspace')}
+                >
+                  {'⇦'}
+                </button>
+              )
+            return <KeyButton keyStr={key} key={idx} />
+          })}
         </div>
       ))}
     </div>

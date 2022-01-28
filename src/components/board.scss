@@ -3,65 +3,93 @@
   flex-direction: column;
 }
 .board {
+  display: flex;
   flex-grow: 1;
+  flex-direction: column;
+  justify-content: space-between;
   $animation-duration: 0.3s;
   max-width: 90%;
-  width: 500px;
+  width: 100%;
   margin: 15px auto;
+  .gap {
+    flex-grow: 1;
+  }
   .board-row {
     display: flex;
+    min-height: 40px;
+    max-height: 50px;
+    flex-grow: 10;
+    margin-bottom: 5px;
+    margin-bottom: 2vh;
+    &:nth-last-child(2) {
+      margin-bottom: 0;
+    }
+  }
+  .current-row .board-cell {
+    animation-delay: 0;
   }
   .board-cell {
     display: flex;
-    flex-grow: 1;
-    flex-basis: 50px;
-    min-height: 25px;
-    line-height: 25px;
-    margin-bottom: 15px;
-    align-items: center;
+    flex-direction: column;
+    flex-shrink: 0;
     justify-content: center;
-    vertical-align: middle;
+    align-items: center;
     font-weight: 800;
-    font-size: 18px;
-    background-color: var(--color-tone-7);
+    font-size: 16px;
+    line-height: 1.2;
+    padding: 2px 4px;
     color: var(--color-tone-1);
-    border: 2px solid var(--color-tone-4);
+    border: 2px solid var(--color-tone-5);
     box-sizing: border-box;
     transition: all $animation-duration ease-in-out;
 
-    &:nth-child(2n) {
-      margin-right: 15px;
+    &-hr {
+      width: 1px;
+      border-color: red;
     }
-    &:nth-child(2n + 1) {
-        margin-right: 5px;
-        text-transform: uppercase;
+    &-muti span {
+      font-size: 12px;
     }
-    &:last-child {
-      margin-right: 0;
-    }
+
     &.unconfirmed {
-      border: 2px solid var(--color-tone-3);
+      border-color: var(--color-tone-3);
       animation: sacle $animation-duration ease-in-out;
     }
 
     &.correct {
-      border: none;
-      background-color: var(--key-bg-correct);
-      color: var(--key-evaluated-text-color);
+      border-width: 0;
       animation: flip $animation-duration ease-in-out;
     }
     &.present {
-      border: none;
-      background-color: var(--key-bg-present);
-      color: var(--key-evaluated-text-color);
+      border-width: 0;
       animation: flip $animation-duration ease-in-out;
     }
     &.absent {
-      border: none;
-      background-color: var(--key-bg-absent);
-      color: var(--key-evaluated-text-color);
+      border-width: 0;
       animation: flip $animation-duration ease-in-out;
     }
+
+    &:nth-child(2n) {
+      border-left-width: 1px;
+      margin-right: 10px;
+      flex-basis: 40px;
+      flex-grow: 2;
+      align-items: flex-start;
+    }
+
+    &:nth-child(2n + 1) {
+      border-right-width: 1px;
+      text-transform: uppercase;
+      flex-basis: 20px;
+      flex-grow: 1;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+  .shaking {
+    animation: shaking 200ms linear 2;
   }
 
   @keyframes flip {
@@ -73,6 +101,24 @@
     }
     100% {
       transform: rotateX(0deg);
+    }
+  }
+
+  @keyframes shaking {
+    0% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-10px);
+    }
+    50% {
+      transform: translateX(10px);
+    }
+    75% {
+      transform: translateX(-10px);
+    }
+    100% {
+      transform: translateX(0);
     }
   }
 

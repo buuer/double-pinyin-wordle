@@ -19,14 +19,14 @@
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
-    &.default {
-      background-color: var(--key-bg);
-      color: var(--key-text-color);
-    }
+    color: var(--key-text-color);
+    background-color: var(--key-bg);
   }
+
   .transition {
     transition: all 0.15s ease-in-out;
   }
+
   .head {
     width: 100%;
     padding: 3px;
@@ -34,19 +34,33 @@
     box-sizing: border-box;
     align-self: flex-start;
     font-weight: 700;
+    border-radius: 4px 4px 0 0;
+  }
+
+  .empty-yun .head {
+    flex-grow: 1;
+    border-radius: 4px;
   }
 
   .tail {
+    opacity: 0.8;
     width: 100%;
     box-sizing: border-box;
     padding: 3px 0;
     flex-grow: 1;
     font-size: 14px;
+    border-top: 1px solid var(--color-tone-7);
     border-radius: 0 0 4px 4px;
   }
-  &.sheng .key-button:not(.empty-yun) {
+  &.sheng .key-button {
     .head {
       opacity: 0.2;
+    }
+    .tail {
+      opacity: 1;
+    }
+    &.empty-yun .head {
+      opacity: 1;
     }
   }
 

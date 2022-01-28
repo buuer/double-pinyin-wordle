@@ -1,5 +1,5 @@
 html,
-body{
+body {
   height: 100%;
   width: 100%;
   -webkit-font-smoothing: antialiased;
@@ -9,6 +9,7 @@ body{
 #app {
   min-height: 100%;
   user-select: none;
+  -webkit-user-select: none;
   font-size: 0;
   font-family: 'source han sans', Helvetica, Arial, sans-serif;
   line-height: 1;
@@ -80,16 +81,17 @@ body{
   --modal-content-bg: var(--color-tone-7);
 }
 
-
-.correct {
-  background-color: var(--key-bg-correct);
-  color: var(--key-evaluated-text-color);
-}
-.present {
-  background-color: var(--key-bg-present);
-  color: var(--key-evaluated-text-color);
-}
-.absent {
-  background-color: var(--key-bg-absent);
-  color: var(--key-evaluated-text-color);
+#app {
+  .correct {
+    background-color: var(--key-bg-correct);
+    color: var(--key-evaluated-text-color);
+  }
+  .present {
+    background-color: var(--key-bg-present);
+    color: var(--key-evaluated-text-color);
+  }
+  .absent {
+    background-color: var(--key-bg-absent);
+    color: var(--key-evaluated-text-color);
+  }
 }

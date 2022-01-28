@@ -1,19 +1,9 @@
-import { createContext, render } from 'preact'
+import { render } from 'preact'
+import { App } from './app'
 import 'normalize.css'
-import './style/index.css'
+import './style/index.scss'
 import './style/atom.scss'
 
-import { App } from './app'
-import { useWordReducer } from './utils/reduce'
 
-const ctx = createContext({})
-const Entry = () => {
-  const ctxValue = useWordReducer()
-  return (
-    <ctx.Provider value={ctxValue}>
-      <App />
-    </ctx.Provider>
-  )
-}
 
-render(<Entry />, document.getElementById('app')!)
+render(<App />, document.getElementById('app')!)

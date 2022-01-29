@@ -1,5 +1,5 @@
 import { FunctionalComponent } from 'preact'
-import { useCallback, useMemo, useState } from 'preact/hooks'
+import { useCallback, useMemo } from 'preact/hooks'
 import {
   DOUBLE_PINYIN_FLY,
   KEY_BOARD_QWERTY,
@@ -7,7 +7,7 @@ import {
   STATUS_MAP,
 } from '../utils/counst'
 import { joinClass, throttle } from '../utils/func'
-import { useWordleContext } from '../utils/reduce'
+import { State, useWordleContext } from '../utils/reduce'
 import './keyboard.scss'
 
 const KeyButton: FunctionalComponent<{
@@ -73,23 +73,33 @@ const Keyboard: FunctionalComponent = () => {
   const status = currentRow.length % 2 ? 'sheng' : ''
   const handleKeyClick = useCallback((ev: Event) => ev.preventDefault(), [])
 
-  const handleComfirm = useCallback(() => {
-    if (currentRow.length !== 8) {
-      emit('shake', true)
-      setTimeout(() => emit('shake', false), 400)
-      return
-    }
+  const handleComfirm = useCallback(
+    (state: State) => {
+      const rowIndex = state.currentIdx
+      const currentRow = state.historyRow[rowIndex]
+      if (currentRow.length !== 8) {
+        emit('shake', true)
+        setTimeout(() => emit('shake', false), 400)
+        return
+      }
 
-    for (let idx = 0; idx < 8; idx++) {
-      setTimeout(() => {
-        emit('confirm', idx)
-        idx === 7 && setTimeout(() => emit('rowConfirm'))
-      }, 100 * idx)
-    }
-  }, [emit, currentRow])
+      emit('next')
+
+      for (let idx = 0; idx < 8; idx++) {
+        setTimeout(() => {
+          emit('confirm', { row: rowIndex, index: idx })
+        }, 100 * idx)
+      }
+    },
+    [emit]
+  )
 
   return (
-    <div className={`keyboard transition ${status}`} onClick={handleKeyClick}>
+    <div
+      className={`keyboard transition ${status}`}
+      onClick={handleKeyClick}
+      onTouchStart={() => 0}
+    >
       {KEY_BOARD_QWERTY.map((row) => (
         <div className="keyboard-row">
           {row.map((key, idx) => {
@@ -98,9 +108,9 @@ const Keyboard: FunctionalComponent = () => {
               return (
                 <button
                   className="key-button default func one-and-a-half"
-                  onClick={handleComfirm}
+                  onClick={() => handleComfirm(state)}
                 >
-                  🕹️
+                  🕹
                 </button>
               )
             if (key === 'backspace')
@@ -109,7 +119,7 @@ const Keyboard: FunctionalComponent = () => {
                   className="key-button default func one-and-a-half"
                   onClick={() => emit('backspace')}
                 >
-                  {'⇦'}
+                  ⇦
                 </button>
               )
             return <KeyButton keyStr={key} key={idx} />

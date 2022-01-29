@@ -1,7 +1,13 @@
 import { createContext } from 'preact'
-import { Reducer, useContext, useReducer } from 'preact/hooks'
+import {
+  Reducer,
+  useCallback,
+  useContext,
+  useMemo,
+  useReducer,
+} from 'preact/hooks'
 import { STATUS } from './counst'
-import { getShengmuByKey, getYunmuByKey, throttle } from './func'
+import { getShengmuByKey, getYunmuByKey } from './func'
 
 const initialState = {
   todayIdx: 0,
@@ -13,19 +19,21 @@ const initialState = {
   ][][],
   statusMap: {} as Record<string, [sheng: number, yun: number]>,
   shaking: false,
+  showHelp: false,
+  showRes: false,
   riddleKeys: ['s', 'd', 'f', 'g', 'h', 'h', 'l', 'l'] as string[],
 }
 
-type State = typeof initialState
+export type State = typeof initialState
 
 type actions = {
   keypass: string
-  confirm: number
-  rowConfirm: void
+  confirm: { row: number; index: number }
+  next: number
   backspace: never
   update: never
   shake: boolean
-  // confirmOnebyOne: number
+  setState: Partial<State>
 }
 
 const noop = (arg: never) => void 0
@@ -48,9 +56,9 @@ const handleBackspace = (state: State) => {
   return { ...state }
 }
 
-const handleConfirm = (state: State, index: number) => {
-  const currentRow = state.historyRow[state.currentIdx]
-  console.log('idx', index)
+const handleConfirm = (state: State, payload: actions['confirm']) => {
+  const currentRow = state.historyRow[payload.row]
+  const index = payload.index
 
   const cell = currentRow[index]
   const [key, _] = cell
@@ -76,7 +84,7 @@ const handleConfirm = (state: State, index: number) => {
   return { ...state }
 }
 
-const handleRowConfirm = (state: State) => {
+const handleNext = (state: State) => {
   const currentRow = state.historyRow[state.currentIdx]
 
   if (state.currentIdx <= 5) {
@@ -94,21 +102,23 @@ const handleRowConfirm = (state: State) => {
 
 const reducer: Reducer<
   typeof initialState,
-  { type: keyof actions; payload?: actions[keyof actions] }
+  { type: keyof actions; payload?: unknown }
 > = (state, action) => {
   switch (action.type) {
     case 'keypass':
       return handleKeypass(state, action.payload as actions['keypass'])
     case 'confirm':
       return handleConfirm(state, action.payload as actions['confirm'])
-    case 'rowConfirm':
-      return handleRowConfirm(state)
+    case 'next':
+      return handleNext(state)
     case 'backspace':
       return handleBackspace(state)
     case 'update':
       return { ...state }
     case 'shake':
-      return { ...state, shaking: action.payload }
+      return { ...state, shaking: action.payload as actions['shake'] }
+    case 'setState':
+      return { ...state, ...(action.payload as actions['setState']) }
     default:
       noop(action.type)
       throw new Error('Unexpected action')
@@ -123,8 +133,10 @@ export const useWordReducer = () => {
     Parameters<typeof reducer>[1]
   >(reducer, initialState)
 
-  const emit: emit = (type, payload) => dispatch({ type, payload })
-
+  const emit: emit = useCallback(
+    (type, payload) => dispatch({ type, payload }),
+    []
+  )
   return { state, emit }
 }
 

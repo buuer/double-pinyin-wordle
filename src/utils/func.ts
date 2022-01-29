@@ -1,4 +1,4 @@
-import { wordle, wordles } from './chengyu'
+import { wordle } from './chengyu'
 import { DOUBLE_PINYIN_FLY, DOUBLE_PINYIN_FLY_SHENG } from './counst'
 
 export const indexArray = (len: number) =>
@@ -13,15 +13,18 @@ export const getKeyboardLayout = (doublePyConf: Record<string, string>) =>
     return keyboard
   }, {} as Record<string, string[]>)
 
-export const joinClass = (classArr: (string | Record<string, boolean>)[]) =>
+export const joinClass = (
+  classArr: (string | Record<string, boolean> | null | undefined)[]
+) =>
   classArr
     .flatMap((name) => {
       if (typeof name === 'string') return name
-      if (typeof name === 'object') {
+      if (name && typeof name === 'object') {
         return Object.keys(name).filter((key) => name[key])
       }
       return ''
     })
+    .filter(Boolean)
     .join(' ')
 
 /**

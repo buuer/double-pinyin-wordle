@@ -1,6 +1,6 @@
 .keyboard {
   width: 100%;
-  overflow: hidden;
+  // overflow: hidden;
   padding: 5px;
   box-sizing: border-box;
   .keyboard-row {
@@ -21,7 +21,6 @@
     font-size: 16px;
     color: var(--key-text-color);
     background-color: var(--key-bg);
-    box-shadow: 0 2px 5px var(--color-tone-3);
   }
 
   .transition {
@@ -78,8 +77,3 @@
   }
 }
 
-.nightmode .keyboard {
-  .key-button {
-    box-shadow: none;
-  }
-}

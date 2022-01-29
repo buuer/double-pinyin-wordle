@@ -3,7 +3,6 @@ import {
   Reducer,
   useCallback,
   useContext,
-  useMemo,
   useReducer,
 } from 'preact/hooks'
 import { STATUS } from './counst'

@@ -31,3 +31,6 @@
     background-color: #fff;
   }
 }
+.pop-show ~ .pop-bg {
+  filter: blur(10px);
+}

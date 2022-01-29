@@ -34,7 +34,7 @@ const Board: FunctionalComponent = () => {
   const { state } = useWordleContext()
 
   return (
-    <div className="board">
+    <div className="board pop-bg">
       {indexArray(6).map((rowIdx) => (
         <div
           className={joinClass([

@@ -88,7 +88,7 @@ const Keyboard: FunctionalComponent = () => {
       for (let idx = 0; idx < 8; idx++) {
         setTimeout(() => {
           emit('confirm', { row: rowIndex, index: idx })
-        }, 100 * idx)
+        }, 250 * idx)
       }
     },
     [emit]
@@ -96,7 +96,7 @@ const Keyboard: FunctionalComponent = () => {
 
   return (
     <div
-      className={`keyboard transition ${status}`}
+      className={`keyboard pop-bg transition ${status}`}
       onClick={handleKeyClick}
       onTouchStart={() => 0}
     >

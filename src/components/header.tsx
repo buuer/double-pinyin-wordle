@@ -29,7 +29,7 @@ const Header: FunctionalComponent = () => {
   const handleSetting = useCallback(() => toggleNightmode(), [])
 
   return (
-    <div class="header">
+    <div class="header pop-bg">
       <div className="menu">
         <MenuIcon icon="㉄" onClick={handleHelp} />
       </div>

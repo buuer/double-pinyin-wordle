@@ -11,7 +11,7 @@ const Popup: FunctionComponent<{ show: boolean; onMaskClick?: () => void }> = (
   useEffect(() => {
     if (props.show) {
       requestAnimationFrame(() => setShow(props.show))
-    } 
+    }
   }, [props.show])
 
   const showVal = useRef<boolean>(false)
@@ -41,6 +41,7 @@ const Popup: FunctionComponent<{ show: boolean; onMaskClick?: () => void }> = (
           },
         ])}
         onClick={props.onMaskClick}
+        onTouchMove={(ev) => ev.preventDefault()}
       />
       <div
         className={joinClass([

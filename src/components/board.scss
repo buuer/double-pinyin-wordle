@@ -7,7 +7,7 @@
   flex-grow: 1;
   flex-direction: column;
   justify-content: space-between;
-  $animation-duration: 0.3s;
+  $animation-duration: 750ms;
   max-width: 90%;
   width: 100%;
   margin: 15px auto;
@@ -53,7 +53,7 @@
 
     &.unconfirmed {
       border-color: var(--color-tone-3);
-      animation: sacle $animation-duration ease-in-out;
+      animation: sacle 150ms ease-in-out;
     }
 
     &.correct {
@@ -94,7 +94,7 @@
     }
   }
   .shaking {
-    animation: shaking 200ms linear 2;
+    animation: shaking 100ms linear 2;
   }
 
   @keyframes flip {
@@ -135,6 +135,7 @@
       transform: scale(1.1);
     }
     100% {
+
       transform: scale(1);
     }
   }

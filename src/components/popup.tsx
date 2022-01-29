@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'preact'
-import { useEffect, useRef, useState } from 'preact/hooks'
+import { useCallback, useEffect, useRef, useState } from 'preact/hooks'
 import { joinClass } from '../utils/func'
 import './popup.scss'
 
@@ -10,7 +10,10 @@ const Popup: FunctionComponent<{ show: boolean; onMaskClick?: () => void }> = (
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
     if (props.show) {
+      document.body.style.overflow = 'hidden'
       requestAnimationFrame(() => setShow(props.show))
+    } else {
+      document.body.style.overflow = 'auto'
     }
   }, [props.show])
 
@@ -29,6 +32,14 @@ const Popup: FunctionComponent<{ show: boolean; onMaskClick?: () => void }> = (
     }
   }, [])
 
+  const popRef = useRef(null)
+
+  const onMaskClick = useRef(props.onMaskClick)
+  onMaskClick.current = props.onMaskClick
+  const handlePopClick = useCallback((ev: MouseEvent) => {
+    ev.target === popRef.current && onMaskClick.current?.()
+  }, [])
+
   return (
     <>
       <div
@@ -44,6 +55,7 @@ const Popup: FunctionComponent<{ show: boolean; onMaskClick?: () => void }> = (
         onTouchMove={(ev) => ev.preventDefault()}
       />
       <div
+        ref={popRef}
         className={joinClass([
           'popup',
           {
@@ -51,7 +63,7 @@ const Popup: FunctionComponent<{ show: boolean; onMaskClick?: () => void }> = (
             'pop-show': props.show && delayShow,
           },
         ])}
-        onClick={props.onMaskClick}
+        onClick={handlePopClick}
       >
         {props.children}
       </div>

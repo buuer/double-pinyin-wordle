@@ -14,7 +14,6 @@ const initialState = {
   historyRow: [[], [], [], [], [], []] as [
     key: string,
     status: number,
-    ...showKey: string[]
   ][][],
   statusMap: {} as Record<string, [sheng: number, yun: number]>,
   shaking: false,
@@ -41,9 +40,7 @@ const handleKeypass = (state: State, key?: string) => {
   if (!key) return state
   const currentRow = state.historyRow[state.currentIdx]
   if (currentRow.length !== 8) {
-    const showValue =
-      currentRow.length % 2 === 1 ? getYunmuByKey(key) : [getShengmuByKey(key)]
-    currentRow.push([key, 0, ...showValue])
+    currentRow.push([key, 0])
   }
 
   return { ...state }

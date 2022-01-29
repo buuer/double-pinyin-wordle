@@ -1,16 +1,27 @@
 import { FunctionalComponent } from 'preact'
 import { useMemo } from 'preact/hooks'
 import { STATUS_MAP } from '../utils/counst'
-import { indexArray, joinClass } from '../utils/func'
+import {
+  getShengmuByKey,
+  getYunmuByKey,
+  indexArray,
+  joinClass,
+} from '../utils/func'
 import { useWordleContext } from '../utils/reduce'
 import './board.scss'
 
 const BoardCell: FunctionalComponent<{
-  data: [string, number, ...string[]]
-  isCurrentRow: boolean
-  isYunmu: boolean
+  data: [string, number]
+  isCurrentRow?: boolean
+  isYunmu?: boolean
 }> = (props) => {
-  const [value, status, ...showValue] = props.data || []
+  const [value, status] = props.data || []
+
+  const showValue: string[] = !value
+    ? []
+    : props.isYunmu
+    ? getYunmuByKey(value)
+    : [getShengmuByKey(value)]
 
   return (
     <div
@@ -18,7 +29,7 @@ const BoardCell: FunctionalComponent<{
         'board-cell',
         STATUS_MAP[status || 0] || '',
         {
-          unconfirmed: props.isCurrentRow && !!value,
+          unconfirmed: !!props.isCurrentRow && !!value,
           'board-cell-muti': showValue.length > 1,
         },
       ])}
@@ -30,26 +41,35 @@ const BoardCell: FunctionalComponent<{
   )
 }
 
+export const BoardRow: FunctionalComponent<{
+  rowData: [string, number][]
+  isCurrentRow?: boolean
+  shaking?: boolean
+}> = (props) => {
+  return (
+    <div className={joinClass(['board-row', { shaking: !!props.shaking }])}>
+      {indexArray(8).map((colIdx) => (
+        <BoardCell
+          data={props.rowData[colIdx]}
+          isYunmu={colIdx % 2 === 1}
+          isCurrentRow={props.isCurrentRow}
+        />
+      ))}
+    </div>
+  )
+}
+
 const Board: FunctionalComponent = () => {
   const { state } = useWordleContext()
 
   return (
     <div className="board pop-bg">
       {indexArray(6).map((rowIdx) => (
-        <div
-          className={joinClass([
-            'board-row',
-            { shaking: rowIdx === state.currentIdx && state.shaking },
-          ])}
-        >
-          {indexArray(8).map((colIdx) => (
-            <BoardCell
-              data={state.historyRow[rowIdx][colIdx]}
-              isYunmu={colIdx % 2 === 1}
-              isCurrentRow={rowIdx === state.currentIdx}
-            />
-          ))}
-        </div>
+        <BoardRow
+          rowData={state.historyRow[rowIdx]}
+          isCurrentRow={state.currentIdx === rowIdx}
+          shaking={state.shaking && state.currentIdx === rowIdx}
+        />
       ))}
       <div className="gap"></div>
     </div>

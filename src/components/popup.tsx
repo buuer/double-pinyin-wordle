@@ -1,13 +1,60 @@
 import { FunctionComponent } from 'preact'
+import { useEffect, useRef, useState } from 'preact/hooks'
+import { joinClass } from '../utils/func'
+import './popup.scss'
 
-const Popup: FunctionComponent = (props) => {
+const Popup: FunctionComponent<{ show: boolean; onMaskClick?: () => void }> = (
+  props
+) => {
+  const [delayShow, setShow] = useState(props.show)
+  const ref = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (props.show) {
+      requestAnimationFrame(() => setShow(props.show))
+    } 
+  }, [props.show])
+
+  const showVal = useRef<boolean>(false)
+  showVal.current = props.show
+
+  useEffect(() => {
+    const refEl = ref.current
+    const handleEvent = (ev: TransitionEvent) => {
+      if (ev.target !== ref.current) return
+      setShow(showVal.current)
+    }
+    refEl?.addEventListener('transitionend', handleEvent)
+    return () => {
+      refEl?.removeEventListener('transitionend', handleEvent)
+    }
+  }, [])
+
   return (
-    <div className="popup" style={{ display: 'none',}}>
-      <div className="popup_inner">
-        <h1>Popup</h1>
+    <>
+      <div
+        ref={ref}
+        className={joinClass([
+          'popup-mask',
+          {
+            'pop-hide': !props.show && !delayShow,
+            'pop-mask-show': props.show && delayShow,
+          },
+        ])}
+        onClick={props.onMaskClick}
+      />
+      <div
+        className={joinClass([
+          'popup',
+          {
+            'pop-hide': !props.show && !delayShow,
+            'pop-show': props.show && delayShow,
+          },
+        ])}
+        onClick={props.onMaskClick}
+      >
         {props.children}
       </div>
-    </div>
+    </>
   )
 }
 

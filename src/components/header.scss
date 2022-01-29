@@ -28,7 +28,15 @@ $header-height: 50px;
     text-align: center;
     vertical-align: middle;
   }
+  .icon-sun-moon::before {
+    content: '㊊';
+  }
 }
-.nightmode .header .icon {
-  color: var(--color-tone-1);
+.nightmode .header {
+  .icon {
+    color: var(--color-tone-1);
+  }
+  .icon-sun-moon::before {
+    content: '㊐';
+  }
 }

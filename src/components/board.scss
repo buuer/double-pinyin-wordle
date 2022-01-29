@@ -35,7 +35,7 @@
     justify-content: center;
     align-items: center;
     font-weight: 800;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 1.2;
     padding: 2px 4px;
     color: var(--color-tone-1);
@@ -71,17 +71,22 @@
 
     &:nth-child(2n) {
       border-left-width: 1px;
+      border-left-width: 0.5px;
       margin-right: 10px;
       flex-basis: 40px;
       flex-grow: 2;
       align-items: flex-start;
+      transform-origin: left;
     }
 
     &:nth-child(2n + 1) {
       border-right-width: 1px;
-      text-transform: uppercase;
-      flex-basis: 20px;
+      border-right-width: 0.5px;
+      text-transform: capitalize;
+      flex-basis: 25px;
       flex-grow: 1;
+      transform-origin: right;
+
     }
 
     &:last-child {

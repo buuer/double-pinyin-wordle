@@ -31,11 +31,11 @@ const Header: FunctionalComponent = () => {
   return (
     <div class="header pop-bg">
       <div className="menu">
-        <MenuIcon icon="㉄" onClick={handleHelp} />
+        <MenuIcon icon="" iconClass='icon-sun-moon' onClick={handleSetting} />
       </div>
       <div className="title"> wordle </div>
       <div className="menu">
-        <MenuIcon icon="" iconClass='icon-sun-moon' onClick={handleSetting} />
+        <MenuIcon icon="㉄" onClick={handleHelp} />
       </div>
     </div>
   )

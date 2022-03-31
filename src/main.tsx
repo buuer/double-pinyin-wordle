@@ -1,7 +1,8 @@
-import { render } from 'preact'
-import { App } from './app'
-import 'normalize.css'
-import './style/index.scss'
+import { render } from "react-dom"
+import { App } from "./app"
 
+import "@unocss/reset/tailwind.css"
+import "./style/index.css"
+import "uno.css"
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-render(<App />, document.getElementById('app')!)
+render(<App />, document.getElementById("app")!)

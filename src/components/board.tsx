@@ -1,14 +1,14 @@
-import { FunctionalComponent } from 'preact'
-import { useMemo } from 'preact/hooks'
-import { STATUS_MAP } from '../utils/counst'
+import { FunctionalComponent } from "react"
+import { useMemo } from "react"
+import { STATUS_MAP } from "../utils/counst"
 import {
   getShengmuByKey,
   getYunmuByKey,
   indexArray,
   joinClass,
-} from '../utils/func'
-import { useWordleContext } from '../utils/reduce'
-import './board.scss'
+} from "../utils/func"
+import { useWordleContext } from "../utils/reduce"
+import "./board.scss"
 
 const BoardCell: FunctionalComponent<{
   data: [string, number]
@@ -26,11 +26,11 @@ const BoardCell: FunctionalComponent<{
   return (
     <div
       className={joinClass([
-        'board-cell',
-        STATUS_MAP[status || 0] || '',
+        "board-cell",
+        STATUS_MAP[status || 0] || "",
         {
           unconfirmed: !!props.isCurrentRow && !!value,
-          'board-cell-muti': showValue.length > 1,
+          "board-cell-muti": showValue.length > 1,
         },
       ])}
     >
@@ -47,7 +47,7 @@ export const BoardRow: FunctionalComponent<{
   shaking?: boolean
 }> = (props) => {
   return (
-    <div className={joinClass(['board-row', { shaking: !!props.shaking }])}>
+    <div className={joinClass(["board-row", { shaking: !!props.shaking }])}>
       {indexArray(8).map((colIdx) => (
         <BoardCell
           data={props.rowData[colIdx]}

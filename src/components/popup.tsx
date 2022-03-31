@@ -1,5 +1,5 @@
-import { FunctionComponent } from 'preact'
-import { useCallback, useEffect, useRef, useState } from 'preact/hooks'
+import { FunctionComponent } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { joinClass } from '../utils/func'
 import './popup.scss'
 

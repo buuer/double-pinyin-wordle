@@ -1,5 +1,5 @@
-import { FunctionalComponent } from 'preact'
-import { useCallback } from 'preact/hooks'
+import { FunctionalComponent } from 'react'
+import { useCallback } from 'react'
 import { joinClass } from '../utils/func'
 import { toggleNightmode } from '../utils/nightmode'
 import { useWordleContext } from '../utils/reduce'

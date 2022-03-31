@@ -1,4 +1,4 @@
-import { FunctionalComponent } from 'preact'
+import { FunctionalComponent } from 'react'
 import { wordles } from '../utils/chengyu'
 import { State, useWordleContext } from '../utils/reduce'
 import Popup from './popup'

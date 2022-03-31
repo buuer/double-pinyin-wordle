@@ -1,9 +1,9 @@
-import { FunctionalComponent } from 'preact'
+import { FunctionalComponent } from 'react'
 import { useWordleContext } from '../utils/reduce'
 import Popup from './popup'
 import './help.scss'
 import { BoardRow } from './board'
-import { useCallback, useEffect, useState } from 'preact/hooks'
+import { useCallback, useEffect, useState } from 'react'
 
 const Link: FunctionalComponent<{ href: string }> = (props) => (
   <a class="help-a" rel="noreferrer" target="_blink" href={props.href}>

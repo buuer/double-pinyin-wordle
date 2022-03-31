@@ -1,7 +1,7 @@
-import { createContext } from 'preact'
-import { Reducer, useCallback, useContext, useReducer } from 'preact/hooks'
-import { STATUS } from './counst'
-import { getShengmuByKey, getYunmuByKey } from './func'
+import { createContext } from "react"
+import { Reducer, useCallback, useContext, useReducer } from "react"
+import { STATUS } from "./counst"
+import { getShengmuByKey, getYunmuByKey } from "./func"
 
 const initialState = {
   todayIdx: 0,
@@ -11,7 +11,7 @@ const initialState = {
   shaking: false,
   showHelp: false,
   showStatus: false,
-  riddleKeys: 'i r z c f u h v'.split(' ') as string[],
+  riddleKeys: "i r z c f u h v".split(" ") as string[],
 }
 
 export type State = typeof initialState
@@ -44,7 +44,7 @@ const handleBackspace = (state: State) => {
   return { ...state }
 }
 
-const handleConfirm = (state: State, payload: actions['confirm']) => {
+const handleConfirm = (state: State, payload: actions["confirm"]) => {
   const currentRow = state.historyRow[payload.row]
   if (!currentRow) return state
 
@@ -98,23 +98,23 @@ const reducer: Reducer<
   { type: keyof actions; payload?: unknown }
 > = (state, action) => {
   switch (action.type) {
-    case 'keypass':
-      return handleKeypass(state, action.payload as actions['keypass'])
-    case 'confirm':
-      return handleConfirm(state, action.payload as actions['confirm'])
-    case 'next':
+    case "keypass":
+      return handleKeypass(state, action.payload as actions["keypass"])
+    case "confirm":
+      return handleConfirm(state, action.payload as actions["confirm"])
+    case "next":
       return handleNext(state)
-    case 'backspace':
+    case "backspace":
       return handleBackspace(state)
-    case 'shake':
-      return { ...state, shaking: action.payload as actions['shake'] }
-    case 'setState':
-      return { ...state, ...(action.payload as actions['setState']) }
-    case 'showResult':
-      return handleShowResult(state, action.payload as actions['showResult'])
+    case "shake":
+      return { ...state, shaking: action.payload as actions["shake"] }
+    case "setState":
+      return { ...state, ...(action.payload as actions["setState"]) }
+    case "showResult":
+      return handleShowResult(state, action.payload as actions["showResult"])
     default:
       noop(action.type)
-      throw new Error('Unexpected action')
+      throw new Error("Unexpected action")
   }
 }
 

@@ -1,5 +1,5 @@
-import { FunctionalComponent } from 'preact'
-import { useCallback, useMemo } from 'preact/hooks'
+import { FunctionalComponent } from 'react'
+import { useCallback, useMemo } from 'react'
 import {
   DOUBLE_PINYIN_FLY,
   KEY_BOARD_QWERTY,

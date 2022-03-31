@@ -1,7 +1,10 @@
 {
-    "extends": [
-        "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
-        "react-app"
-    ]
+  "env": {
+    "browser": true,
+    "node": true,
+  },
+  "extends": [
+    "plugin:import/recommended",
+    "react-app"
+  ]
 }

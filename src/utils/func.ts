@@ -27,24 +27,14 @@ export const joinClass = (
     .filter(Boolean)
     .join(' ')
 
-/**
- * 
- * const tones = {
- *   a: ['à', 'ǎ', 'á', 'ā'],
- *   o: ['ō', 'ó', 'ǒ', 'ò'],
- *   e: ['è', 'ě', 'é', 'ē'],
- *   i: ['ī', 'í', 'ǐ', 'ì'],
- *   u: ['ū', 'ú', 'ǔ', 'ù'],
- *   v: ['ǜ', 'ǚ', 'ǘ', 'ǖ'],
- * }
- * 
- * Object.entries(tones)
- *   .map(([key, val]) =>
- *     val.reduce<Record<string, string>>((m, t) => ((m[t] = key), m), {})
- *   )
- *   .reduce((a, b) => Object.assign(a, b), {})
-
- */
+const tones = {
+  a: ['a', 'ā', 'á', 'ǎ', 'à'],
+  o: ['o', 'ō', 'ó', 'ǒ', 'ò'],
+  e: ['e', 'ē', 'é', 'ě', 'è'],
+  i: ['i', 'ī', 'í', 'ǐ', 'ì'],
+  u: ['u', 'ū', 'ú', 'ǔ', 'ù'],
+  v: ['ü', 'ǖ', 'ǘ', 'ǚ', 'ǜ'],
+}
 
 const toneMap: Record<string, string> = {
   á: 'a',
@@ -125,4 +115,24 @@ export const throttle = <T extends (...arg: any[]) => any>(
   }
 
   return throttleFn as T
+}
+
+export const setLocalData = (key: string, value: unknown) => {
+  try {
+    localStorage.setItem(key, JSON.stringify(value))
+  } catch (error) {
+    return error
+  }
+}
+
+export const getLocalData = <T>(
+  key: string
+): [null, T | null] | [unknown, null] => {
+  try {
+    const strData = localStorage.getItem(key)
+    const data = strData === null ? strData : (JSON.parse(strData) as T)
+    return [null, data]
+  } catch (error) {
+    return [error, null]
+  }
 }

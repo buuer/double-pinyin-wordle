@@ -1,25 +1,17 @@
 import { createContext } from 'preact'
-import {
-  Reducer,
-  useCallback,
-  useContext,
-  useReducer,
-} from 'preact/hooks'
+import { Reducer, useCallback, useContext, useReducer } from 'preact/hooks'
 import { STATUS } from './counst'
 import { getShengmuByKey, getYunmuByKey } from './func'
 
 const initialState = {
   todayIdx: 0,
   currentIdx: 0,
-  historyRow: [[], [], [], [], [], []] as [
-    key: string,
-    status: number,
-  ][][],
+  historyRow: [[], [], [], [], [], []] as [key: string, status: number][][],
   statusMap: {} as Record<string, [sheng: number, yun: number]>,
   shaking: false,
   showHelp: false,
-  showRes: false,
-  riddleKeys: ['s', 'd', 'f', 'g', 'h', 'h', 'l', 'l'] as string[],
+  showStatus: false,
+  riddleKeys: 'i r z c f u h v'.split(' ') as string[],
 }
 
 export type State = typeof initialState
@@ -29,8 +21,8 @@ type actions = {
   confirm: { row: number; index: number }
   next: number
   backspace: never
-  update: never
   shake: boolean
+  showResult: number
   setState: Partial<State>
 }
 
@@ -39,7 +31,7 @@ const noop = (arg: never) => void 0
 const handleKeypass = (state: State, key?: string) => {
   if (!key) return state
   const currentRow = state.historyRow[state.currentIdx]
-  if (currentRow.length !== 8) {
+  if (currentRow && currentRow.length !== 8) {
     currentRow.push([key, 0])
   }
 
@@ -48,12 +40,14 @@ const handleKeypass = (state: State, key?: string) => {
 
 const handleBackspace = (state: State) => {
   const currentRow = state.historyRow[state.currentIdx]
-  currentRow.splice(currentRow.length - 1, 1)
+  currentRow && currentRow.splice(currentRow.length - 1, 1)
   return { ...state }
 }
 
 const handleConfirm = (state: State, payload: actions['confirm']) => {
   const currentRow = state.historyRow[payload.row]
+  if (!currentRow) return state
+
   const index = payload.index
 
   const cell = currentRow[index]
@@ -81,16 +75,19 @@ const handleConfirm = (state: State, payload: actions['confirm']) => {
 }
 
 const handleNext = (state: State) => {
-  const currentRow = state.historyRow[state.currentIdx]
-
   if (state.currentIdx <= 5) {
     state.currentIdx += 1
   }
-
+  return { ...state }
+}
+const handleShowResult = (state: State, rowIdx: number) => {
+  const { historyRow } = state
+  const currentRow = historyRow[rowIdx]
+  if (!currentRow) return state
   const isALlRight = currentRow.every(([, status]) => status === STATUS.CORRENT)
 
-  if (isALlRight) {
-    console.log('all right')
+  if (isALlRight || rowIdx === 5) {
+    state.showStatus = true
   }
 
   return { ...state }
@@ -109,12 +106,12 @@ const reducer: Reducer<
       return handleNext(state)
     case 'backspace':
       return handleBackspace(state)
-    case 'update':
-      return { ...state }
     case 'shake':
       return { ...state, shaking: action.payload as actions['shake'] }
     case 'setState':
       return { ...state, ...(action.payload as actions['setState']) }
+    case 'showResult':
+      return handleShowResult(state, action.payload as actions['showResult'])
     default:
       noop(action.type)
       throw new Error('Unexpected action')

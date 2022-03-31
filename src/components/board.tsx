@@ -17,11 +17,11 @@ const BoardCell: FunctionalComponent<{
 }> = (props) => {
   const [value, status] = props.data || []
 
-  const showValue: string[] = !value
-    ? []
-    : props.isYunmu
-    ? getYunmuByKey(value)
-    : [getShengmuByKey(value)]
+  const showValue: string[] = useMemo(() => {
+    if (!value) return []
+    if (!props.isYunmu) return [getShengmuByKey(value)]
+    return getYunmuByKey(value)
+  }, [value, props.isYunmu])
 
   return (
     <div

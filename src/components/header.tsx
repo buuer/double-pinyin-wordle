@@ -25,16 +25,21 @@ const Header: FunctionalComponent = () => {
     () => emit('setState', { showHelp: true }),
     [emit]
   )
+  const handleStatus = useCallback(
+    () => emit('setState', { showStatus: true }),
+    [emit]
+  )
 
   const handleSetting = useCallback(() => toggleNightmode(), [])
 
   return (
     <div class="header pop-bg">
       <div className="menu">
-        <MenuIcon icon="" iconClass='icon-sun-moon' onClick={handleSetting} />
+        <MenuIcon icon="" iconClass="icon-sun-moon" onClick={handleSetting} />
       </div>
       <div className="title"> wordle </div>
       <div className="menu">
+        <MenuIcon icon="🪧" onClick={handleStatus} />
         <MenuIcon icon="㉄" onClick={handleHelp} />
       </div>
     </div>

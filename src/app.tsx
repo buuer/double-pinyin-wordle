@@ -1,9 +1,10 @@
 import Help from './components/help'
+import GameStatus from './components/gameStatus'
 import Header from './components/header'
 import Board from './components/board'
 import Keyboard from './components/keyboard'
-import { ctx, useWordleContext, useWordReducer } from './utils/reduce'
-import { useEffect } from 'preact/hooks'
+
+import { ctx, useWordReducer } from './utils/reduce'
 import { useAutoNightmode } from './utils/nightmode'
 
 export function App() {
@@ -12,6 +13,7 @@ export function App() {
   return (
     <ctx.Provider value={ctxValue}>
       <Help />
+      <GameStatus />
       <Header />
       <Board />
       <Keyboard />

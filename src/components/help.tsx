@@ -37,8 +37,8 @@ const Help: FunctionalComponent = () => {
         </h1>
 
         <div className="help-scroll">
-          <p> 六次机会猜成语，填满一行按 🕹 提交 </p>
-          <p>根据答案变换声母/韵母颜色，提供猜词线索</p>
+          <p>六次机会猜成语，填满一行按 🕹 </p>
+          <p>声母/韵母颜色，提供猜词线索</p>
           <div className="help-hr" />
           <p>例：</p>
           <div className="help-board board">
@@ -50,7 +50,7 @@ const Help: FunctionalComponent = () => {
             />
           </div>
           <p>
-            <span className="with-status correct">L</span>字母及位置都正确
+            <span className="with-status correct">L</span>本格正确
           </p>
           <div className="help-board board">
             <BoardRow
@@ -61,7 +61,7 @@ const Help: FunctionalComponent = () => {
             />
           </div>
           <p>
-            <span className="with-status present">iang/uang</span>仅位置错误
+            <span className="with-status present">iang/uang</span>位置错误
           </p>
           <div className="help-board board">
             <BoardRow

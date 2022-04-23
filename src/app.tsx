@@ -7,16 +7,10 @@ import { useWordReducer } from "./state/reduce"
 export const App: FC = () => {
   useAutoNightmode()
   const ctxValue = useWordReducer()
-
   return (
-    <>
-      <wordleContext.Provider value={ctxValue}>
-        <div className="app-content">
-          <Header />
-          <Board />
-        </div>
-        <div className="app-modal">modal</div>
-      </wordleContext.Provider>
-    </>
+    <wordleContext.Provider value={ctxValue}>
+      <Header />
+      <Board />
+    </wordleContext.Provider>
   )
 }

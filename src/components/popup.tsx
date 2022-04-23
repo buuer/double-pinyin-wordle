@@ -1,74 +1,97 @@
-import { FunctionComponent } from 'react'
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { joinClass } from '../utils/func'
-import './popup.scss'
+import { useLockScroll, useNodeClassname } from "~/hooks/document"
+import { createPortal } from "react-dom"
+import { withTransition } from "./transition"
 
-const Popup: FunctionComponent<{ show: boolean; onMaskClick?: () => void }> = (
-  props
-) => {
-  const [delayShow, setShow] = useState(props.show)
-  const ref = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    if (props.show) {
-      document.body.style.overflow = 'hidden'
-      requestAnimationFrame(() => setShow(props.show))
-    } else {
-      document.body.style.overflow = 'auto'
-    }
-  }, [props.show])
+const isHide = (state: string) => state === "exited" || state === "exiting"
 
-  const showVal = useRef<boolean>(false)
-  showVal.current = props.show
-
-  useEffect(() => {
-    const refEl = ref.current
-    const handleEvent = (ev: TransitionEvent) => {
-      if (ev.target !== ref.current) return
-      setShow(showVal.current)
-    }
-    refEl?.addEventListener('transitionend', handleEvent)
-    return () => {
-      refEl?.removeEventListener('transitionend', handleEvent)
-    }
-  }, [])
-
-  const popRef = useRef(null)
-
-  const onMaskClick = useRef(props.onMaskClick)
-  onMaskClick.current = props.onMaskClick
-  const handlePopClick = useCallback((ev: MouseEvent) => {
-    ev.target === popRef.current && onMaskClick.current?.()
-  }, [])
-
-  return (
-    <>
+const Mask: FC<{ show: boolean; onClick?: () => void }> = (props) => {
+  const nodeRef = useRef(null)
+  return withTransition(
+    {
+      in: props.show,
+      nodeRef,
+      timeout: 300,
+      unmountOnExit: true,
+      mountOnEnter: true,
+    },
+    (state) => (
       <div
-        ref={ref}
-        className={joinClass([
-          'popup-mask',
-          {
-            'pop-hide': !props.show && !delayShow,
-            'pop-mask-show': props.show && delayShow,
-          },
-        ])}
-        onClick={props.onMaskClick}
-        onTouchMove={(ev) => ev.preventDefault()}
+        ref={nodeRef}
+        className={classnames(
+          "absolute inset-0 z-1",
+          "bg-black transition-opacity duration-300"
+        )}
+        style={isHide(state) ? { opacity: 0 } : { opacity: 0.65 }}
+        onClick={props.onClick}
       />
-      <div
-        ref={popRef}
-        className={joinClass([
-          'popup',
-          {
-            'pop-hide': !props.show && !delayShow,
-            'pop-show': props.show && delayShow,
-          },
-        ])}
-        onClick={handlePopClick}
-      >
-        {props.children}
-      </div>
-    </>
+    )
   )
 }
 
-export default Popup
+const PopContent: FC<{
+  show: boolean
+  className?: string
+  children?: ReactNode
+}> = (props) => {
+  const nodeRef = useRef(null)
+  return withTransition(
+    {
+      in: props.show,
+      nodeRef,
+      timeout: 300,
+      unmountOnExit: true,
+      mountOnEnter: true,
+    },
+    (state) => (
+      <div
+        className={classnames(
+          props.className,
+          "absolute z-2",
+          "overflow-auto transition duration-300"
+        )}
+        style={
+          isHide(state)
+            ? {
+                opacity: 0,
+                transform: "translateY(1.5rem)",
+              }
+            : {
+                opacity: 1,
+                transform: "translateY(0)",
+              }
+        }
+      >
+        {props.children}
+      </div>
+    )
+  )
+}
+
+const PopPortal: FC<{
+  show: boolean
+  className?: string
+  onMaskClick?: () => void
+  children?: ReactNode
+}> = (props) => {
+  useLockScroll(props.show)
+
+  useNodeClassname({
+    id: "app",
+    className: "filter-blur",
+    value: props.show,
+  })
+
+  return createPortal(
+    <>
+      <Mask show={props.show} onClick={props.onMaskClick} />
+      <PopContent
+        show={props.show}
+        className={props.className}
+        children={props.children}
+      />
+    </>,
+    document.getElementById("modal")!
+  )
+}
+
+export default PopPortal

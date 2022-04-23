@@ -1,3 +1,4 @@
+import { Board } from "./components/board"
 import Header from "./components/header"
 import { useAutoNightmode } from "./hooks/nightmode"
 import { wordleContext } from "./state/context"
@@ -12,6 +13,7 @@ export const App: FC = () => {
       <wordleContext.Provider value={ctxValue}>
         <div className="app-content">
           <Header />
+          <Board />
         </div>
         <div className="app-modal">modal</div>
       </wordleContext.Provider>

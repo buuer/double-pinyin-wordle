@@ -1,8 +1,15 @@
-import { render } from "react-dom"
+import { createRoot } from "react-dom/client"
 import { App } from "./app"
 
 import "@unocss/reset/tailwind.css"
 import "./style/index.css"
 import "uno.css"
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-render(<App />, document.getElementById("app")!)
+import { StrictMode } from "react"
+
+const appEl = document.getElementById("app")!
+
+createRoot(appEl).render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+)

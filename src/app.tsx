@@ -1,22 +1,20 @@
-import Help from './components/help'
-import GameStatus from './components/gameStatus'
-import Header from './components/header'
-import Board from './components/board'
-import Keyboard from './components/keyboard'
+import Header from "./components/header"
+import { useAutoNightmode } from "./hooks/nightmode"
+import { wordleContext } from "./state/context"
+import { useWordReducer } from "./state/reduce"
 
-import { ctx, useWordReducer } from './utils/reduce'
-import { useAutoNightmode } from './utils/nightmode'
-
-export function App() {
-  const ctxValue = useWordReducer()
+export const App: FC = () => {
   useAutoNightmode()
+  const ctxValue = useWordReducer()
+
   return (
-    <ctx.Provider value={ctxValue}>
-      <Help />
-      <GameStatus />
-      <Header />
-      <Board />
-      <Keyboard />
-    </ctx.Provider>
+    <>
+      <wordleContext.Provider value={ctxValue}>
+        <div className="app-content">
+          <Header />
+        </div>
+        <div className="app-modal">modal</div>
+      </wordleContext.Provider>
+    </>
   )
 }

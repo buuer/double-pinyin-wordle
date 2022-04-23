@@ -15,8 +15,14 @@ export default defineConfig({
     react(),
     Unocss(),
     AutoImport({
-      imports: ["react"],
-      dts: "src/auto-imports.d.ts",
+      imports: [
+        "react",
+        {
+          // "react-use": ["useToggle"],
+          classnames: [["default", "classnames"]],
+        },
+      ],
+      dts: "src/types/auto-imports.d.ts",
     }),
   ],
 })

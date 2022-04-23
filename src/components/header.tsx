@@ -1,48 +1,38 @@
-import { FunctionalComponent } from 'react'
-import { useCallback } from 'react'
-import { joinClass } from '../utils/func'
-import { toggleNightmode } from '../utils/nightmode'
-import { useWordleContext } from '../utils/reduce'
-import './header.scss'
+import { useWordleContext } from "~/state/context"
 
-const MenuIcon: FunctionalComponent<{
+const MenuIcon: FC<{
   icon: string
-  iconClass?: string
-  onClick: () => void
+  classname?: string
+  onClick?: () => void
 }> = (props) => {
   return (
-    <div
-      className={joinClass([`icon`, props.iconClass])}
+    <span
+      className={classnames(
+        "inline-block px-1 w-8 text-center activatable",
+        props.classname
+      )}
       onClick={props.onClick}
     >
       {props.icon}
-    </div>
+    </span>
   )
 }
-const Header: FunctionalComponent = () => {
-  const { emit } = useWordleContext()
-  const handleHelp = useCallback(
-    () => emit('setState', { showHelp: true }),
-    [emit]
-  )
-  const handleStatus = useCallback(
-    () => emit('setState', { showStatus: true }),
-    [emit]
-  )
 
-  const handleSetting = useCallback(() => toggleNightmode(), [])
+const Header: FC = () => {
+  const { modify } = useWordleContext()
 
   return (
-    <div class="header pop-bg">
-      <div className="menu">
-        <MenuIcon icon="" iconClass="icon-sun-moon" onClick={handleSetting} />
+    <header className="header font-serif flex justify-between items-center px-4 text-base border-b-1 border-w-gray">
+      <div className="menu ">
+        <MenuIcon icon="㊐" classname="dark:hidden" />
+        <MenuIcon icon="㊊" classname="hidden dark:inline-block" />
       </div>
-      <div className="title"> wordle </div>
+      <div className="title font-bold text-lg tracking-wider"> 拼音猜词 </div>
       <div className="menu">
-        <MenuIcon icon="🪧" onClick={handleStatus} />
-        <MenuIcon icon="㉄" onClick={handleHelp} />
+        <MenuIcon icon="🪧" onClick={() => modify("modal", "status")} />
+        <MenuIcon icon="㉄" onClick={() => modify("modal", "help")} />
       </div>
-    </div>
+    </header>
   )
 }
 

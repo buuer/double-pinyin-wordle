@@ -7,14 +7,17 @@ export default defineConfig({
   theme: {
     colors: {
       wordle: {
-        green: "#6aaa64",
-        darkendGreen: "#538d4e",
-        yellow: "#c9b458",
-        darkendYellow: "#b59f3b",
-        lightGray: "#d8d8d8",
-        gray: "#86888a",
-        darkGray: "#939598",
+        green: "var(--green)",
+        yellow: "var(--yellow)",
+        gray: "var(--gray)",
       },
+    },
+
+    breakpoints: {
+      mxs: "320px",
+      msm: "375px",
+      mmd: "390px",
+      mlg: "410px",
     },
   },
   presets: [presetWind(), presetIcons(), presetTypography()],

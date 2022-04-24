@@ -22,3 +22,9 @@ export const randomNum = (max = 10, min = 0) => {
   const range = max - min + 1
   return Math.floor(Math.random() * range + min)
 }
+
+export const hashCode = (s: string) =>
+  s.split("").reduce((a, b) => ((a << 5) - a + b.charCodeAt(0)) | 0, 0)
+
+export const getIndexByHash = (hash: number, length: number) =>
+  hashCode(hash.toString()) % length

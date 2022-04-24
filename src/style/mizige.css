@@ -1,0 +1,57 @@
+.mizige-ge {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid;
+  border-color: #ed5126;
+}
+
+.mizige-zi {
+  height: 0;
+  line-height: 0;
+  padding-top: 50%;
+  padding-bottom: 50%;
+  font-style: normal;
+}
+
+.mizige-zi::after,
+.mizige-zi::before,
+.mizige-ge::after,
+.mizige-ge::before {
+  content: "";
+  position: absolute;
+  display: inline-block;
+  border-bottom: 1px;
+  border-style: dashed;
+  opacity: 0.65;
+  width: 100%;
+  transform-origin: center center;
+  border-color: #ed5126;
+  z-index: -1;
+}
+
+.mizige-ge::after,
+.mizige-ge::before {
+  width: 300%;
+}
+.mizige-zi::after,
+.mizige-zi::before {
+  left: 0;
+  top: 50%;
+}
+
+.mizige-ge::after {
+  transform: rotateZ(45deg) scaleY(0.5);
+}
+.mizige-ge::before {
+  transform: rotateZ(-45deg) scaleY(0.5);
+}
+
+.mizige-zi::after {
+  transform: rotateZ(90deg) scaleX(2) scaleY(0.5);
+}
+.mizige-zi::before {
+  transform: rotateZ(0deg) scaleX(2) scaleY(0.5);
+}

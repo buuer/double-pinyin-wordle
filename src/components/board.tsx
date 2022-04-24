@@ -2,6 +2,7 @@ import { STATUS } from "~/utils/counst"
 import { addTone, removeTone } from "~/utils/pinyin"
 import { status } from "~/utils/types"
 import { indexArray, randomNum } from "../utils/func"
+import { Mige } from "./mige"
 
 const ROW_LEN = 6
 const COL_LEN = 4
@@ -36,16 +37,16 @@ const BoardCell: FC<{
   return (
     <div
       className={classnames(
-        "board-cell relative pt-2 text-center",
+        "board-cell relative text-center",
         "lt-mxs:w-16 lt-mxs:h-16",
         "at-mxs:w-18 at-mxs:h-18",
         "at-msm:w-20 at-msm:h-20",
         "at-mmd:w-22 at-mmd:h-22",
         "mlg:w-24 mlg:h-24",
         "flex flex-none items-center justify-center",
-        "border-1 mr-[-1px] border-#ed5126",
+        "mr-[-1px]",
         statusHan === STATUS.CORRENT
-          ? "c-white bg-wordle-green all-[.status-color]-c-white"
+          ? "c-white bg-wordle-green all-[.status-color]-c-white z-1"
           : "c-#310f1b"
       )}
     >
@@ -79,7 +80,7 @@ const BoardCell: FC<{
           </span>
         </span>
       </div>
-      <div
+      {/* <div
         className={classnames(
           statusClass(statusHan),
           "status-color",
@@ -87,7 +88,16 @@ const BoardCell: FC<{
         )}
       >
         {han}
-      </div>
+      </div> */}
+      <Mige
+        className={classnames(
+          statusClass(statusHan),
+          "status-color",
+          "text-3xl font-serif w-full"
+        )}
+      >
+        {han}
+      </Mige>
     </div>
   )
 }
@@ -122,6 +132,7 @@ export const BoardRow: FC<{
 export const Board: FC = () => {
   return (
     <div className="board my-4">
+      <Mige>永</Mige>
       <Loop node={(index) => <BoardRow key={index} />} length={ROW_LEN} />
     </div>
   )

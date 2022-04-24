@@ -18,10 +18,10 @@ const Mask: FC<{ show: boolean; onClick?: () => void }> = (props) => {
       <div
         ref={nodeRef}
         className={classnames(
-          "absolute inset-0 z-1",
+          "absolute inset-0 z-1 opacity-65",
           "bg-black transition-opacity duration-300"
         )}
-        style={isHide(state) ? { opacity: 0 } : { opacity: 0.65 }}
+        style={isHide(state) ? { opacity: 0 } : {}}
         onClick={props.onClick}
       />
     )
@@ -44,9 +44,11 @@ const PopContent: FC<{
     },
     (state) => (
       <div
+        ref={nodeRef}
         className={classnames(
           props.className,
           "absolute z-2",
+          "opacity-100 translate-y-0",
           "overflow-auto transition duration-300"
         )}
         style={
@@ -55,10 +57,7 @@ const PopContent: FC<{
                 opacity: 0,
                 transform: "translateY(1.5rem)",
               }
-            : {
-                opacity: 1,
-                transform: "translateY(0)",
-              }
+            : {}
         }
       >
         {props.children}

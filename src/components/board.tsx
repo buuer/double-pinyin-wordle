@@ -25,8 +25,10 @@ const statusClass = (status: status) => ({
 const BoardCell: FC<{
   value?: [string, string, string, number]
   status?: [status, status, status, status]
+  index: number
+  animate?: boolean
 }> = (props) => {
-  const { value, status } = props
+  const { value, status, index } = props
   const [statusHan, statusSheng, statusYun, statusTone] = status || [
     STATUS.BASE,
     STATUS.BASE,
@@ -36,6 +38,12 @@ const BoardCell: FC<{
 
   const [han, sheng, yun, tone] = value || ["", "", "", 0]
 
+  const aniDelay = [
+    "animate-delay-0",
+    "animate-delay-300",
+    "animate-delay-600",
+    "animate-delay-900",
+  ][index]
   return (
     <div
       className={classnames(
@@ -45,6 +53,9 @@ const BoardCell: FC<{
         "mlg:w-24 mlg:h-24",
         "flex flex-none items-center justify-center",
         "mr-[-1px] z-1",
+        props.animate && "animate-[cell-flap]",
+        "animate-duration-1600 animate-count-infinite",
+        aniDelay,
         statusHan === STATUS.CORRENT
           ? "c-white bg-wordle-green all-[.status-color]-c-white"
           : "c-#310f1b"
@@ -119,7 +130,9 @@ export const BoardRow: FC<{
         <Loop
           node={(index) => (
             <BoardCell
-              key={index}
+              key={word[index]}
+              index={index}
+              animate={editable}
               status={[randomNum(3), randomNum(3), randomNum(3), randomNum(3)]}
               value={[word[index], "m", "ào", 4]}
             />

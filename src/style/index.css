@@ -48,3 +48,15 @@ body {
 .shadow-bottom {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.05);
 }
+
+@keyframes cell-flap {
+  0% {
+    transform: rotateX(0deg);
+  }
+  50% {
+    transform: rotateX(90deg);
+  }
+  100% {
+    transform: rotateX(0deg);
+  }
+}

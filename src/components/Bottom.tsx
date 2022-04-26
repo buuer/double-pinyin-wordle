@@ -1,8 +1,8 @@
-export const Bottom: FC<{
-  onConfirm?: (word: string) => void
-}> = (props) => {
-  const { onConfirm } = props
+import { useWordleContext } from "~/state/context"
+import { RingText } from "./ringText"
 
+export const Bottom: FC = () => {
+  const { state, modify } = useWordleContext()
 
   return (
     <>
@@ -12,17 +12,16 @@ export const Bottom: FC<{
                 shadow-top w-full z-1"
       >
         <button className="w-20 text-center activatable">
-          <span
-            className="border-1 rounded-full w-5 h-5 
-          inline-flex items-center justify-center
-          text-sm "
-          >
-            确
-          </span>
+          <RingText text="猜" />
         </button>
-        <div className="border-x border-light grow w-1 my-2 ">
-        </div>
-        <button className="w-12 w-20 text-base text-center cursor-grab active:cursor-grabbing"></button>
+        <div className="border-x border-light grow my-2"></div>
+        <button
+          className="w-20 text-center activatable"
+          key={state.editing ? "editing" : ""} // 防止 blur 事件触发修改 state.editing 导致收起异常
+          onClick={() => modify("editing", (v) => !v)}
+        >
+          <RingText text={state.editing ? "收" : "写"} />
+        </button>
       </div>
       <div className="h-20" />
     </>

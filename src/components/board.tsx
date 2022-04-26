@@ -25,7 +25,7 @@ export const BoardRow: FC<{
   return (
     <div
       className={classnames(
-        "board-row inline-flex justify-center items-center mt--1px relative",
+        "board-row inline-flex justify-center items-center relative mt-0 previous-[.board-row]:mt--1px",
         {
           "cursor-text": editable,
           shaking: Boolean(props.shaking),

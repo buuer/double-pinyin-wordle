@@ -42,3 +42,9 @@ body {
   --color-tone-7: #121213;
   --opacity-50: rgba(0, 0, 0, 0.5);
 }
+.shadow-top {
+  box-shadow: 0 -2px 5px 0px rgba(0, 0, 0, 0.05);
+}
+.shadow-bottom {
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.05);
+}

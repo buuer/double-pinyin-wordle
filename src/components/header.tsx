@@ -26,7 +26,7 @@ const Header: FC = () => {
       className="header px-4 sticky top-0 bg-white z-10
                 flex justify-between items-center 
                 text-base font-serif 
-                border-b-1 border-light-500"
+                border-b-1 border-light-500 shadow-bottom"
     >
       <div className="menu ">
         <MenuIcon icon="㊐" classname="dark:hidden" />

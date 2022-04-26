@@ -3,7 +3,7 @@ export const indexArray = (length: number) =>
 
 export const never = (arg: never) => void 0
 
-export const noop = (arg: any) => void 0
+export const noop = (...arg: any[]) => void 0
 
 export const identity = <T>(id: T) => id
 

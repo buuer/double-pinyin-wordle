@@ -23,32 +23,29 @@ export const BoardRow: FC<{
   const [word, setWord] = useState("")
 
   return (
-    <div className="relative">
+    <div
+      className={classnames(
+        "board-row inline-flex justify-center items-center mt--1px relative",
+        {
+          "cursor-text": editable,
+          shaking: Boolean(props.shaking),
+        }
+      )}
+      onClick={props.handleClick}
+    >
       <BoardInput editable={props.editable} value={word} onChange={setWord} />
-      <div
-        className={classnames(
-          "board-row flex justify-center items-center mt--1px",
-          "transition-colors previous-[input:focus]:bg-gray-200",
-          {
-            "cursor-text": editable,
-            shaking: Boolean(props.shaking),
-          }
+      <Loop
+        length={COL_LEN}
+        node={(index) => (
+          <BoardCell
+            key={word[index]}
+            index={index}
+            animate={editable}
+            status={[randomNum(3), randomNum(3), randomNum(3), randomNum(3)]}
+            value={[word[index], "m", "ào", 4]}
+          />
         )}
-        onClick={props.handleClick}
-      >
-        <Loop
-          node={(index) => (
-            <BoardCell
-              key={word[index]}
-              index={index}
-              animate={editable}
-              status={[randomNum(3), randomNum(3), randomNum(3), randomNum(3)]}
-              value={[word[index], "m", "ào", 4]}
-            />
-          )}
-          length={COL_LEN}
-        />
-      </div>
+      />
     </div>
   )
 }
@@ -59,8 +56,9 @@ export const Board: FC = () => {
     modify("editing", true)
   }, [modify])
   return (
-    <div className="board my-4 min-w-260px flex flex-col items-center">
+    <div className="board my-4 min-w-260px flex flex-col items-center overflow-hidden">
       <Loop
+        length={ROW_LEN}
         node={(index) => (
           <BoardRow
             key={index}
@@ -68,7 +66,6 @@ export const Board: FC = () => {
             handleClick={index === 5 ? handleRowClick : noop}
           />
         )}
-        length={ROW_LEN}
       />
     </div>
   )

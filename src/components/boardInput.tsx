@@ -40,7 +40,7 @@ export const BoardInput: FC<{
   return (
     <input
       className="absolute bottom-0 text-20 w-full outline-none text-transparent z--1
-              caret-transparent
+              caret-transparent bg-transparent focus:bg-gray-200 transition-colors
               at-mmd:text-20 lt-mmd:text-16 mlg:text-24
               at-mmd:h-20 lt-mmd:h-16 mlg:h-24"
       ref={inputRef}

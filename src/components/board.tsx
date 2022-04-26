@@ -52,7 +52,7 @@ const BoardCell: FC<{
     >
       <div
         className={classnames(
-          "text-base",
+          "text-base mmd:text-lg lt-msm:text-xs",
           "absolute top-0 w-full",
           "border-b border-white border-opacity-10"
         )}
@@ -80,20 +80,11 @@ const BoardCell: FC<{
           </span>
         </span>
       </div>
-      {/* <div
-        className={classnames(
-          statusClass(statusHan),
-          "status-color",
-          "text-3xl font-serif"
-        )}
-      >
-        {han}
-      </div> */}
       <Mige
         className={classnames(
           statusClass(statusHan),
           "status-color",
-          "text-3xl font-serif w-full"
+          "text-3xl mmd:text-4xl lt-msm:text-2xl font-serif w-full"
         )}
       >
         {han}
@@ -131,8 +122,7 @@ export const BoardRow: FC<{
 
 export const Board: FC = () => {
   return (
-    <div className="board my-4">
-      <Mige>永</Mige>
+    <div className="board my-4 min-w-260px">
       <Loop node={(index) => <BoardRow key={index} />} length={ROW_LEN} />
     </div>
   )

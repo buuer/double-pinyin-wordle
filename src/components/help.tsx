@@ -23,8 +23,7 @@ const Help: FC = () => {
   return (
     <Popup
       show={state.modal === "help"}
-      onMaskClick={handleClose}
-      className="inset-0 p-4 c-#c0c4c3"
+      className="inset-0 p-4  max-w-160 mx-auto c-#c0c4c3"
     >
       <h1 className="text-2xl font-600" onClick={handleClose}>
         怎么玩
@@ -45,8 +44,9 @@ const Help: FC = () => {
         <BoardRow />
 
         <p>
-          <span className="inline-block mr-2 w-6 c-wordle-yellow">黄</span>
-          <span className="inline-block mr-2 c-wordle-yellow">iang/uang</span>
+          <span className="inline-block mr-2 w-6 c-wordle-yellow">诚</span>
+          <span className="inline-block mr-2 c-wordle-yellow">eng</span>
+          <span className="inline-block mr-2 c-wordle-yellow">ˇ</span>
           位置错误
         </p>
         <BoardRow />
@@ -56,9 +56,7 @@ const Help: FC = () => {
         </p>
         <BoardRow />
 
-        <p className="border-b border-light border-opacity-30" />
-        <p>每天都有一个新的成语</p>
-
+        <div className="mt-8 text-center">每天都有一个新的成语</div>
         <div
           className={classnames(
             "start text-center my-4 ",

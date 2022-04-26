@@ -3,7 +3,12 @@ import transformerVariantGroup from "@unocss/transformer-variant-group"
 import transformerDirective from "@unocss/transformer-directives"
 
 export default defineConfig({
-  shortcuts: [["activatable", "cursor-pointer active:opacity-65"]],
+  shortcuts: [
+    [
+      "activatable",
+      "cursor-pointer select-none active:opacity-65 transition-opacity",
+    ],
+  ],
   theme: {
     colors: {
       wordle: {

@@ -22,7 +22,12 @@ const Header: FC = () => {
   const { modify } = useWordleContext()
 
   return (
-    <header className="header font-serif flex justify-between items-center px-4 text-base border-b-1 border-w-gray">
+    <header
+      className="header px-4 sticky top-0 bg-white z-10
+                flex justify-between items-center 
+                text-base font-serif 
+                border-b-1 border-light-500"
+    >
       <div className="menu ">
         <MenuIcon icon="㊐" classname="dark:hidden" />
         <MenuIcon icon="㊊" classname="hidden dark:inline-block" />

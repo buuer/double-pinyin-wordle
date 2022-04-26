@@ -23,6 +23,8 @@ export const TONES = {
   v: ["ü", "ǖ", "ǘ", "ǚ", "ǜ"],
 }
 
+export const TONE_ONLY = ["", "ˉ", "ˊ", "ˇ", "ˋ"]
+
 export const TONES_MAP = Object.entries(TONES).reduce((pre, [key, value]) => {
   value.forEach((tone) => (pre[tone] = key))
   return pre

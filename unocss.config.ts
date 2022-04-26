@@ -19,9 +19,8 @@ export default defineConfig({
     },
 
     breakpoints: {
-      mxs: "320px",
-      msm: "375px",
-      mmd: "390px",
+      msm: "320px",
+      mmd: "375px",
       mlg: "410px",
     },
   },

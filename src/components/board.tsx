@@ -1,7 +1,9 @@
+import { useWordleContext } from "~/state/context"
 import { STATUS } from "~/utils/counst"
 import { addTone, removeTone } from "~/utils/pinyin"
 import { status } from "~/utils/types"
-import { indexArray, randomNum } from "../utils/func"
+import { indexArray, noop, randomNum } from "../utils/func"
+import { BoardInput } from "./boardInput"
 import { Mige } from "./mige"
 
 const ROW_LEN = 6
@@ -94,42 +96,25 @@ const BoardCell: FC<{
 export const BoardRow: FC<{
   rowData?: [string, number][]
   shaking?: boolean
+  editable?: boolean
+  handleClick: () => void
 }> = (props) => {
-  const inputRef = useRef<HTMLInputElement>(null)
+  const { editable } = props
   const [word, setWord] = useState("")
-
-  const handleChange = useCallback(
-    (ev: React.ChangeEvent<HTMLInputElement>) => {
-      const word = ev.target.value.replace(/\s|[0-9A-z]/g, "").slice(0, 4)
-      setWord(word)
-    },
-    []
-  )
-
-  const handleClick = useCallback(() => {
-    if (!inputRef.current) return
-    inputRef.current.focus()
-  }, [])
 
   return (
     <div className="relative">
-      <input
-        className="absolute bottom-0 text-20 w-full outline-none text-transparent z--1
-                  caret-transparent
-                  at-mmd:text-20 lt-mmd:text-16 mlg:text-24
-                  at-mmd:h-20 lt-mmd:h-16 mlg:h-24"
-        ref={inputRef}
-        value={word}
-        onChange={handleChange}
-      />
+      <BoardInput editable={props.editable} value={word} onChange={setWord} />
       <div
         className={classnames(
-          "board-row flex justify-center items-center mt--1px previous-[input:focus]:bg-blue-200",
+          "board-row flex justify-center items-center mt--1px",
+          "transition-colors previous-[input:focus]:bg-gray-200",
           {
+            "cursor-text": editable,
             shaking: Boolean(props.shaking),
           }
         )}
-        onClick={handleClick}
+        onClick={props.handleClick}
       >
         <Loop
           node={(index) => (
@@ -147,9 +132,22 @@ export const BoardRow: FC<{
 }
 
 export const Board: FC = () => {
+  const { modify } = useWordleContext()
+  const handleRowClick = useCallback(() => {
+    modify("editing", true)
+  }, [modify])
   return (
     <div className="board my-4 min-w-260px flex flex-col items-center">
-      <Loop node={(index) => <BoardRow key={index} />} length={ROW_LEN} />
+      <Loop
+        node={(index) => (
+          <BoardRow
+            key={index}
+            editable={index === 5}
+            handleClick={index === 5 ? handleRowClick : noop}
+          />
+        )}
+        length={ROW_LEN}
+      />
     </div>
   )
 }

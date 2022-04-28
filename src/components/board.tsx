@@ -17,7 +17,7 @@ export const BoardRow: FC<{
   rowData?: [string, number][]
   shaking?: boolean
   editable?: boolean
-  handleClick: () => void
+  handleClick?: () => void
 }> = (props) => {
   const { editable } = props
   const [word, setWord] = useState("")

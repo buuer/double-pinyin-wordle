@@ -1,4 +1,6 @@
+import { usePinyin } from "~/hooks/pinyin"
 import { useWordleContext } from "~/state/context"
+import { wordToPinyin } from "~/utils/pinyin"
 import { indexArray, noop, randomNum } from "../utils/func"
 import { BoardCell } from "./boardCell"
 import { BoardInput } from "./boardInput"
@@ -7,10 +9,10 @@ const ROW_LEN = 6
 const COL_LEN = 4
 
 const Loop: FC<{
-  node: (index: number) => ReactNode
+  children: (index: number) => ReactNode
   length: number
 }> = (props) => {
-  return <>{indexArray(props.length).map(props.node)}</>
+  return <>{indexArray(props.length).map(props.children)}</>
 }
 
 export const BoardRow: FC<{
@@ -21,6 +23,7 @@ export const BoardRow: FC<{
 }> = (props) => {
   const { editable } = props
   const [word, setWord] = useState("")
+  const pinyin = useMemo(() => wordToPinyin(word), [word])
 
   return (
     <div
@@ -33,19 +36,17 @@ export const BoardRow: FC<{
       )}
       onClick={props.handleClick}
     >
-      <BoardInput editable={props.editable} value={word} onChange={setWord} />
-      <Loop
-        length={COL_LEN}
-        node={(index) => (
+      <BoardInput editable={editable} value={word} onChange={setWord} />
+      <Loop length={COL_LEN}>
+        {(index) => (
           <BoardCell
-            key={word[index]}
+            key={index}
             index={index}
-            animate={editable}
             status={[randomNum(3), randomNum(3), randomNum(3), randomNum(3)]}
-            value={[word[index], "m", "ào", 4]}
+            value={[word[index], ...(pinyin[index] || [])]}
           />
         )}
-      />
+      </Loop>
     </div>
   )
 }
@@ -57,16 +58,15 @@ export const Board: FC = () => {
   }, [modify])
   return (
     <div className="board my-4 min-w-260px flex flex-col items-center overflow-hidden">
-      <Loop
-        length={ROW_LEN}
-        node={(index) => (
+      <Loop length={ROW_LEN}>
+        {(index) => (
           <BoardRow
             key={index}
             editable={index === 5}
             handleClick={index === 5 ? handleRowClick : noop}
           />
         )}
-      />
+      </Loop>
     </div>
   )
 }

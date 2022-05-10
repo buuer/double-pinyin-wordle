@@ -10,6 +10,7 @@
     "@unocss/reset": "^0.31.13",
     "classnames": "^2.3.1",
     "immer": "^9.0.12",
+    "pinyin": "^2.11.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-transition-group": "^4.4.2"

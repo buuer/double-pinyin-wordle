@@ -1,5 +1,5 @@
 import { STATUS } from "~/utils/counst"
-import { addTone, removeTone } from "~/utils/pinyin"
+import { splitTone } from "~/utils/pinyin"
 import { status } from "~/utils/types"
 import { Mige } from "./mige"
 
@@ -51,7 +51,7 @@ export const BoardCell: FC<{
       <div
         className={classnames(
           "at-mmd:text-base lt-mmd:text-sm mlg:text-xl",
-          "absolute top-0 w-full",
+          "absolute top-0 w-full h-8",
           "border-b border-white border-opacity-10"
         )}
       >
@@ -71,10 +71,10 @@ export const BoardCell: FC<{
               "absolute left-0 z--1"
             )}
           >
-            {addTone(yun, tone)}
+            {yun}
           </span>
           <span className={classnames(statusClass(statusYun), "status-color")}>
-            {removeTone(yun)}
+            {splitTone(yun)[0]}
           </span>
         </span>
       </div>
@@ -82,7 +82,7 @@ export const BoardCell: FC<{
         className={classnames(
           statusClass(statusHan),
           "status-color",
-          "at-mmd:text-3xl lt-mmd:text-2xl mlg:text-4xl font-serif w-full"
+          "at-mmd:text-4xl lt-mmd:text-3xl mlg:text-5xl font-serif w-full"
         )}
       >
         {han}

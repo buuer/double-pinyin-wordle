@@ -1,7 +1,6 @@
-import { usePinyin } from "~/hooks/pinyin"
 import { useWordleContext } from "~/state/context"
 import { wordToPinyin } from "~/utils/pinyin"
-import { indexArray, noop, randomNum } from "../utils/func"
+import { indexArray, noop, randomNum } from "~/utils/func"
 import { BoardCell } from "./boardCell"
 import { BoardInput } from "./boardInput"
 

@@ -1,5 +1,7 @@
 import toPinyin from "pinyin/lib/web-pinyin"
 import { TONES_MAP } from "./counst"
+import { identity } from "./func"
+import idiom from "~/data/idiom.json"
 
 export const splitTone = (pinyin: string = "") => {
   let tone = 0
@@ -20,11 +22,17 @@ export const addTone = (pinyin: string, tone: number) => {
   return pinyin
 }
 
-export const wordToPinyin = (word: string) =>
-  toPinyin(word, { style: toPinyin.STYLE_TONE }).map(([pinyin]) => {
+export const wordToPinyin = (word: string) => {
+  const idiomPinyin = (idiom as Record<string, string>)[word]
+  const wordPinyin = idiomPinyin
+    ? idiomPinyin.split(" ")
+    : toPinyin(word, { style: toPinyin.STYLE_TONE }).flatMap(identity)
+
+  return wordPinyin.map((pinyin) => {
     const [withoutTone, tone] = splitTone(pinyin)
     const [p1, p2] = withoutTone.split(/(?=[aeiıouü])/)
     const sheng = p2 ? p1 : ""
     const yun = pinyin.replace(sheng, "")
     return [sheng, yun, tone] as const
   })
+}
